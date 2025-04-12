@@ -7,24 +7,25 @@
         </div>
 
         {{-- Comment Body --}}
+        @foreach ($comments as $comment)
         <div>
             <article class="my-6 text-base bg-white rounded-lg">
                 <footer class="flex justify-between items-center mb-2">
                     <div class="flex items-center">
                         <p class="inline-flex items-center mr-3 text-sm text-gray-900">
-                            <img src="" alt="" class="mr-2 w-6 h-6 rounded-full">
-                            Some Name
+                            <img src="{{ $comment->user->avatar() }}" alt="{{ $comment->user->name }}" class="mr-2 w-6 h-6 rounded-full">
+                            {{ $comment->user->name }}
                         </p>
 
                         <p class="text-sm text-gray-600">
-                            Date
+                            {{ $comment->created_at->diffForHumans() }}
                         </p>
                     </div>
                 </footer>
 
                 <!-- Comment Body -->
                 <p class="text-gray-500">
-                    Comment Body
+                    {{ $comment->body }}
                 </p>
 
                 <!-- Reply, Edit, Delete Section -->
@@ -51,7 +52,7 @@
                     </button>
                 </div>
 
-                <form wire:submit="replyComment" class="mb-6 mt-6 ml-6">
+                {{-- <form wire:submit="replyComment" class="mb-6 mt-6 ml-6">
                     <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
                         <label for="comment" class="sr-only">Your comment</label>
                         <textarea id="comment" style="resize: none;" placeholder="Write a comment..." class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"></textarea>
@@ -64,9 +65,10 @@
                     <button class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-lg">
                         Cancel
                     </button>
-                </form>
+                </form> --}}
             </article>
         </div>
+        @endforeach
 
         {{-- Replies --}}
         <div>
