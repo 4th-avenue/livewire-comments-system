@@ -13,6 +13,11 @@ class Comment extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+        'body',
+        'user_id',
+    ];
+
     public function scopeParent(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
