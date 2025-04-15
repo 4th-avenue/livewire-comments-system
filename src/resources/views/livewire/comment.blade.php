@@ -46,9 +46,15 @@
     </article>
 
     {{-- Reply form --}}
-    <form class="mb-6 ml-8 lg:ml-12" x-show="isReplying" x-transition>
+    <form wire:submit="storeReply" class="mb-6 ml-8 lg:ml-12" x-show="isReplying" x-transition>
         <label for="comment" class="sr-only">Your comment</label>
-        <textarea id="comment" style="resize: none;" placeholder="Write a reply..." rows="2" class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"></textarea>
+        <textarea wire:model="form.body" id="comment" style="resize: none;" placeholder="Write a reply..." rows="2" class="shadow-sm block rounded-md w-full
+        @if($errors->has('form.body'))
+            text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
+        @else
+            text-gray-900 focus:ring-blue-500 focus:border-blue-500 border-gray-300
+        @endif"></textarea>
+        <x-input-error :messages="$errors->get('form.body')" class="mt-2" />
 
         <button type="submit" class="inline-flex items-center py-1.5 px-3 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800 mt-4">
             Reply
