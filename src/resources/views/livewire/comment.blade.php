@@ -1,6 +1,6 @@
 <div x-data="{
     isReplying: $wire.entangle('isReplying'),
-    isEditing: $wire.entangle('isEditing')
+    isEditing: $wire.entangle('isEditing').live,
 }">
     <article class="my-6 text-base bg-white rounded-lg">
         <footer class="flex justify-between items-center mb-2">
@@ -22,21 +22,21 @@
         </p>
 
         {{-- Update form --}}
-        <form wire:submit="storeReply" class="mb-6 ml-8 lg:ml-12" x-show="isEditing" x-transition>
+        <form wire:submit="updateComment" class="mb-6" x-show="isEditing" x-transition>
             <label for="comment" class="sr-only">Your comment</label>
-            <textarea wire:model="form.body" id="comment" style="resize: none;" placeholder="Write a comment..." rows="2" class="shadow-sm block rounded-md w-full
-            @if($errors->has('form.body'))
+            <textarea wire:model="updateForm.body" id="comment" style="resize: none;" placeholder="Write a comment..." rows="2" class="shadow-sm block rounded-md w-full
+            @if($errors->has('updateForm.body'))
                 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
             @else
                 text-gray-900 focus:ring-blue-500 focus:border-blue-500 border-gray-300
             @endif"></textarea>
-            <x-input-error :messages="$errors->get('form.body')" class="mt-2" />
+            <x-input-error :messages="$errors->get('updateForm.body')" class="mt-2" />
 
             <button type="submit" class="inline-flex items-center py-1.5 px-3 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800 mt-4">
                 Update
             </button>
 
-            <button @click="isEditing=!isEditing" type="button" class="py-1.5 px-3 text-xs font-medium text-gray-900 shadow-sm ring-1 ring-inset bg-white ring-gray-300 hover:bg-gray-50 rounded-lg">
+            <button @click="isEditing=false" type="button" class="py-1.5 px-3 text-xs font-medium text-gray-900 shadow-sm ring-1 ring-inset bg-white ring-gray-300 hover:bg-gray-50 rounded-lg">
                 Cancel
             </button>
         </form>
