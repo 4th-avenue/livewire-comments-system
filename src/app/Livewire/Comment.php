@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Livewire\Forms\ReplyForm;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Comment as CommentModel;
 use App\Livewire\Forms\UpdateCommentForm;
 
@@ -26,6 +27,8 @@ class Comment extends Component
 
     public function updateComment()
     {
+        Gate::authorize('update', $this->comment);
+
         $this->updateForm->updateComment($this->comment);
 
         $this->isEditing = false;
