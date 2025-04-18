@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Comment;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use App\Livewire\Forms\CommentForm;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
@@ -19,9 +20,10 @@ class Comments extends Component
         $this->form->storeComment($this->model);
     }
 
-    public function deleteComment($comment_id)
+    #[On('deleteComment')]
+    public function deleteComment($comment)
     {
-        $comment = Comment::find($comment_id);
+        $comment = Comment::find($comment);
 
         Gate::authorize('delete', $comment);
 

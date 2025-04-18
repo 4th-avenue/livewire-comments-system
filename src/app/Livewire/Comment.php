@@ -10,6 +10,10 @@ use App\Livewire\Forms\UpdateCommentForm;
 
 class Comment extends Component
 {
+    protected $listeners = [
+        'deleteComment' => '$refresh',
+    ];
+
     public CommentModel $comment;
 
     public $isReplying = false, $isEditing = false;
