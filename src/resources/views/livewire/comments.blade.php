@@ -11,6 +11,10 @@
             <livewire:comment :$comment :key="$comment->id" />
         @endforeach
 
+        <div class="my-5">
+            {{ $comments->links() }}
+        </div>
+
         {{-- Main Comment Form --}}
         <form class="mb-6" wire:submit="postComment">
             <div class="py-2 mb-4">

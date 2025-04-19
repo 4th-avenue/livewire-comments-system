@@ -5,12 +5,15 @@ namespace App\Livewire;
 use App\Models\Comment;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 use App\Livewire\Forms\CommentForm;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Model;
 
 class Comments extends Component
 {
+    use WithPagination;
+
     public Model $model;
 
     public CommentForm $form;
@@ -18,6 +21,8 @@ class Comments extends Component
     public function postComment()
     {
         $this->form->storeComment($this->model);
+
+        $this->gotoPage(1);
     }
 
     #[On('deleteComment')]
@@ -38,7 +43,7 @@ class Comments extends Component
                 ->with('user', 'replies.user', 'replies.replies')
                 ->parent()
                 ->latest()
-                ->get(),
+                ->paginate(3),
         ]);
     }
 }
