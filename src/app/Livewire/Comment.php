@@ -30,6 +30,8 @@ class Comment extends Component
 
         $this->form->storeReply($this->comment);
 
+        $this->comment->load('replies.user', 'replies.replies');
+
         $this->isReplying = false;
     }
 
