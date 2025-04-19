@@ -24,6 +24,11 @@ class Comment extends Model
         return new CommentPresenter($this);
     }
 
+    public function isReply()
+    {
+        return isset($this->parent_id);
+    }
+
     public function scopeParent(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
