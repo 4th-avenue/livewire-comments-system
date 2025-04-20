@@ -1,7 +1,11 @@
 <div x-data="{
     isReplying: $wire.entangle('isReplying'),
     isEditing: $wire.entangle('isEditing').live,
-}">
+}" x-effect="if(isReplying) {
+    $nextTick(() => $refs.replyForm.focus())
+}; if(isEditing) {
+    $nextTick(() => $refs.updateForm.focus())
+};">
     <article class="my-6 text-base bg-white rounded-lg">
         <footer class="flex justify-between items-center mb-2">
             <div class="flex items-center">
@@ -24,7 +28,7 @@
         {{-- Update form --}}
         <form wire:submit="updateComment" class="mb-6" x-show="isEditing" x-transition x-cloak>
             <label for="comment" class="sr-only">Your comment</label>
-            <textarea wire:model="updateForm.body" id="comment" style="resize: none;" placeholder="Write a comment..." rows="2" class="shadow-sm block rounded-md w-full
+            <textarea x-ref="updateForm" wire:model="updateForm.body" id="comment" style="resize: none;" placeholder="Write a comment..." rows="2" class="shadow-sm block rounded-md w-full
             @if($errors->has('updateForm.body'))
                 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
             @else
@@ -74,7 +78,7 @@
     {{-- Reply form --}}
     <form wire:submit="storeReply" class="mb-6 ml-8 lg:ml-12" x-show="isReplying" x-transition x-cloak>
         <label for="comment" class="sr-only">Your comment</label>
-        <textarea wire:model="form.body" id="comment" style="resize: none;" placeholder="Write a reply..." rows="2" class="shadow-sm block rounded-md w-full
+        <textarea x-ref="replyForm" wire:model="form.body" id="comment" style="resize: none;" placeholder="Write a reply..." rows="2" class="shadow-sm block rounded-md w-full
         @if($errors->has('form.body'))
             text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
         @else
