@@ -10,10 +10,6 @@ use App\Livewire\Forms\UpdateCommentForm;
 
 class Comment extends Component
 {
-    protected $listeners = [
-        'deleteComment' => '$refresh',
-    ];
-
     public CommentModel $comment;
 
     public $isReplying = false, $isEditing = false;
@@ -49,6 +45,12 @@ class Comment extends Component
         if ($value) {
             $this->updateForm->body = $this->comment->body;
         }
+    }
+
+    public function deleteComment()
+    {
+        Gate::authorize('delete', $this->comment);
+        $this->comment->delete();
     }
 
     public function render()
