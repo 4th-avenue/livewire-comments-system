@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CommentForm extends Form
 {
-    #[Validate('required', message: '내용을 입력하세요.')]
+    #[Validate('required|string|min:3|max:500')]
     public $body;
 
     public function storeComment(Model $model)
@@ -20,6 +20,6 @@ class CommentForm extends Form
             'user_id' => auth()->id(),
         ]);
 
-        $this->reset(['body']);
+        $this->reset('body');
     }
 }
