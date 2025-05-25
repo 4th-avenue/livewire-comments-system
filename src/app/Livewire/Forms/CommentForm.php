@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class CommentForm extends Form
 {
     #[Validate('required|string|min:3|max:500')]
-    public $body;
+    public string $body = '';
 
     public function storeComment(Model $model)
     {
