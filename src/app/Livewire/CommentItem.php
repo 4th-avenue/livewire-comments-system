@@ -15,6 +15,8 @@ class CommentItem extends Component
     public function postReply()
     {
         $this->replyForm->storeReply($this->comment);
+
+        $this->dispatch('replied', $this->comment->id);
     }
 
     public function render()

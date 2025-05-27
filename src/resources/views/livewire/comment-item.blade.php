@@ -1,7 +1,9 @@
 <div x-data="{
     replying: false,
     showReply: false
-}" class="my-6">
+}"
+x-on:replied.window="replying = false"
+class="my-6">
     <div>
         <div class="flex items-center space-x-2">
             <img src="" alt="" class="bg-black rounded-full size-8">
