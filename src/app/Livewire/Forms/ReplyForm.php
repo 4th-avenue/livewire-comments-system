@@ -8,8 +8,8 @@ use Livewire\Attributes\Validate;
 
 class ReplyForm extends Form
 {
-    #[Validate('required', message: '내용을 입력하세요.')]
-    public $body;
+    #[Validate('required|string|min:3|max:500')]
+    public string $body = '';
 
     public function storeReply(Comment $comment)
     {
@@ -24,6 +24,6 @@ class ReplyForm extends Form
 
         $reply->save();
 
-        $this->reset(['body']);
+        $this->reset('body');
     }
 }
