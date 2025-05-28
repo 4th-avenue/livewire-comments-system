@@ -19,7 +19,17 @@ class CommentList extends Component
     public function render()
     {
         return view('livewire.comment-list', [
-            'comments' => $this->model->comments()->with('user')->latest()->get(),
+            'comments' => $this->model
+                ->comments()
+                ->parent()
+                ->with([
+                    'user',
+                    'replies' => function ($query) {
+                        $query->oldest()->with('user:id,name', 'replies:id');
+                    }
+                ])
+                ->latest()
+                ->get(),
         ]);
     }
 }

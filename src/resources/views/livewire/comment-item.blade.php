@@ -34,5 +34,13 @@ class="my-6">
                 </form>
             </div>
         </template>
+
+        @if ($comment->replies->isNotEmpty())
+            <div class="ml-8 mt-8">
+                @foreach($comment->replies as $reply)
+                    <livewire:comment-item :comment="$reply" :key="$reply->id" />
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
