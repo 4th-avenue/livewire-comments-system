@@ -35,7 +35,7 @@ class="my-6">
             </div>
         </template>
 
-        @if ($comment->replies->isNotEmpty())
+        @if (is_null($comment->parent_id) && $comment->replies->isNotEmpty())
             <div class="ml-8 mt-8">
                 @foreach($comment->replies as $reply)
                     <livewire:comment-item :comment="$reply" :key="$reply->id" />
