@@ -14,7 +14,9 @@ class="my-6">
         <div class="mt-4">{{ $comment->body }}</div>
 
         <div class="mt-6 text-sm flex items-center space-x-3">
-            <button class="text-gray-500" @click="replying=!replying; showReply=true">Reply</button>
+            @can('reply', $comment)
+                <button class="text-gray-500" @click="replying=!replying; showReply=true">Reply</button>
+            @endcan
         </div>
 
         <template x-if="showReply">

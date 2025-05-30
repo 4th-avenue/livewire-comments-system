@@ -63,4 +63,9 @@ class CommentPolicy
     {
         return false;
     }
+
+    public function reply(User $user, Comment $comment): bool
+    {
+        return is_null($comment->parent_id);
+    }
 }

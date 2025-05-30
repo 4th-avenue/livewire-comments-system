@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Comment;
 use Livewire\Component;
 use App\Livewire\Forms\ReplyForm;
+use Illuminate\Support\Facades\Gate;
 
 class CommentItem extends Component
 {
@@ -14,6 +15,8 @@ class CommentItem extends Component
 
     public function postReply()
     {
+        Gate::authorize('reply', $this->comment);
+
         $this->replyForm->storeReply($this->comment);
         $this->comment->load([
             'replies' => fn ($q) => $q->with('user:id,name', 'replies:id'),
