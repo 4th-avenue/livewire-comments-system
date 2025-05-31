@@ -1,6 +1,8 @@
 <div x-data="{
     replying: false,
-    showReply: false
+    showReply: false,
+    editing: false,
+    showEdit: false
 }"
 x-on:replied.window="replying = false"
 class="my-6">
@@ -11,11 +13,34 @@ class="my-6">
             <div class="text-sm">{{ $comment->created_at->diffForHumans() }}</div>
         </div>
 
-        <div class="mt-4">{{ $comment->body }}</div>
+        @can('update', $comment)
+            <template x-if="showEdit">
+                <div x-show="editing" x-transition>
+                    <form class="mt-4">
+                        <div>
+                            <x-textarea class="w-full" rows="4" wire:model="updateForm.body" />
+                            <x-input-error :messages="$errors->get('updateForm.body')" />
+                        </div>
+                        <div class="flex items-baseline space-x-2">
+                            <x-primary-button class="mt-2">
+                                Update
+                            </x-primary-button>
+                            <x-secondary-button @click="editing=false" class="text-sm text-gray-500">Cancel</x-secondary-button>
+                        </div>
+                    </form>
+                </div>
+            </template>
+        @endcan
 
-        <div class="mt-6 text-sm flex items-center space-x-3">
+        <div x-show="!editing" class="mt-4">{{ $comment->body }}</div>
+
+        <div x-show="!editing" class="mt-6 text-sm flex items-center space-x-3">
             @can('reply', $comment)
                 <button class="text-gray-500" @click="replying=!replying; showReply=true">Reply</button>
+            @endcan
+
+            @can('update', $comment)
+                <button class="text-gray-500" @click="editing=true; showEdit=true">Edit</button>
             @endcan
         </div>
 
@@ -23,7 +48,7 @@ class="my-6">
             <div x-show="replying" x-transition>
                 <form wire:submit="postReply" class="mt-4">
                     <div>
-                        <x-textarea placeholder="Post a comment" class="w-full" rows="4" wire:model="replyForm.body" />
+                        <x-textarea placeholder="Reply to {{ $comment->user->name }}" class="w-full" rows="4" wire:model="replyForm.body" />
                         <x-input-error :messages="$errors->get('replyForm.body.body')" />
                     </div>
 
