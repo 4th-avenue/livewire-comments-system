@@ -6,12 +6,27 @@ use App\Models\Comment;
 use Livewire\Component;
 use App\Livewire\Forms\ReplyForm;
 use Illuminate\Support\Facades\Gate;
+use App\Livewire\Forms\UpdateCommentForm;
 
 class CommentItem extends Component
 {
     public Comment $comment;
 
     public ReplyForm $replyForm;
+    public UpdateCommentForm $updateForm;
+
+    public function mount()
+    {
+        $this->updateForm->body = $this->comment->body;
+    }
+
+    public function updateComment()
+    {
+        Gate::authorize('update', $this->comment);
+
+        $this->updateForm->updateComment($this->comment);
+        $this->dispatch('edited', $this->comment->id);
+    }
 
     public function postReply()
     {

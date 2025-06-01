@@ -5,6 +5,7 @@
     showEdit: false
 }"
 x-on:replied.window="replying = false"
+x-on:edited.window="editing = false"
 class="my-6">
     <div>
         <div class="flex items-center space-x-2">
@@ -16,7 +17,7 @@ class="my-6">
         @can('update', $comment)
             <template x-if="showEdit">
                 <div x-show="editing" x-transition>
-                    <form class="mt-4">
+                    <form wire:submit="updateComment" class="mt-4">
                         <div>
                             <x-textarea class="w-full" rows="4" wire:model="updateForm.body" />
                             <x-input-error :messages="$errors->get('updateForm.body')" />

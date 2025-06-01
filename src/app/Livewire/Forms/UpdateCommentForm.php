@@ -8,8 +8,8 @@ use Livewire\Attributes\Validate;
 
 class UpdateCommentForm extends Form
 {
-    #[Validate('required', message: '내용을 입력하세요.')]
-    public $body;
+    #[Validate('required|string|min:3|max:500')]
+    public string $body = '';
 
     public function updateComment(Comment $comment)
     {
@@ -19,6 +19,6 @@ class UpdateCommentForm extends Form
             'body' => $this->body,
         ]);
 
-        $this->reset(['body']);
+        // $this->reset('body');
     }
 }
