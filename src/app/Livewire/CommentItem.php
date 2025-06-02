@@ -39,6 +39,12 @@ class CommentItem extends Component
         $this->dispatch('replied', $this->comment->id);
     }
 
+    public function deleteComment()
+    {
+        Gate::authorize('delete', $this->comment);
+        $this->comment->delete();
+    }
+
     public function render()
     {
         return view('livewire.comment-item');

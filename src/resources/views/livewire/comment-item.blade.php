@@ -2,10 +2,12 @@
     replying: false,
     showReply: false,
     editing: false,
-    showEdit: false
+    showEdit: false,
+    deleted: false
 }"
 x-on:replied.window="replying = false"
 x-on:edited.window="editing = false"
+x-show="!deleted" x-transition:leave.duration.900ms
 class="my-6">
     <div>
         <div class="flex items-center space-x-2">
@@ -42,6 +44,10 @@ class="my-6">
 
             @can('update', $comment)
                 <button class="text-gray-500" @click="editing=true; showEdit=true">Edit</button>
+            @endcan
+
+            @can('delete', $comment)
+                <button class="text-gray-500" wire:confirm="정말로 삭제하시겠습니까?" wire:click="deleteComment" @click="deleted=true">Delete</button>
             @endcan
         </div>
 
