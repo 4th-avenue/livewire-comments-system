@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,9 +48,19 @@ class User extends Authenticatable
         ];
     }
 
-    public function avatar()
+    protected function gravatar(): Attribute
     {
-        return 'https://www.gravatar.com/avatar/'.md5($this->email).'?s=80&d=mp';
+        return Attribute::make(
+            get: fn() => $this->generateGravatarUrl($this->email)
+        );
+    }
+
+    protected function generateGravatarUrl($email): string
+    {
+        $email = strtolower(trim($email));
+        $hash = md5($email);
+
+        return 'https://www.gravatar.com/avatar/'.$hash.'.jpg?s=200&d=identicon';
     }
 
     public function comments(): HasMany

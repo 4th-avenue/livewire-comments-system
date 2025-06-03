@@ -25,7 +25,7 @@ class CommentList extends Component
                 ->with([
                     'user',
                     'replies' => function ($query) {
-                        $query->oldest()->with('user:id,name', 'replies:id');
+                        $query->oldest()->with('user:id,name,email', 'replies:id');
                     }
                 ])
                 ->latest()
