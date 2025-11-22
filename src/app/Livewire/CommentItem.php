@@ -34,7 +34,7 @@ class CommentItem extends Component
 
         $this->replyForm->storeReply($this->comment);
         $this->comment->load([
-            'replies' => fn ($q) => $q->with('user:id,name', 'replies:id'),
+            'replies' => fn ($q) => $q->with('user:id,name,email', 'replies:id'),
         ]);
         $this->dispatch('replied', $this->comment->id);
     }
